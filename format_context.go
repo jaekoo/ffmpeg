@@ -85,8 +85,8 @@ func (s *FormatContext) AvformatFreeContext() {
 }
 
 //Add a new stream to a media file.
-func (s *FormatContext) AvformatNewStream(c *Codec) *Stream {
-	return (*Stream)(C.avformat_new_stream((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c)))
+func (s *FormatContext) AvformatNewStream(c *Codec) *AVStream {
+	return (*AVStream)(C.avformat_new_stream((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c)))
 }
 
 func (s *FormatContext) AvNewProgram(id int) *AvProgram {
@@ -199,17 +199,17 @@ func (s *FormatContext) AvDumpFormat(i int, url string, io int) {
 }
 
 //Guess the sample aspect ratio of a frame, based on both the stream and the frame aspect ratio.
-func (s *FormatContext) AvGuessSampleAspectRatio(st *Stream, fr *Frame) Rational {
+func (s *FormatContext) AvGuessSampleAspectRatio(st *AVStream, fr *Frame) Rational {
 	return newRational(C.av_guess_sample_aspect_ratio((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), (*C.struct_AVFrame)(unsafe.Pointer(fr))))
 }
 
 //Guess the frame rate, based on both the container and codec information.
-func (s *FormatContext) AvGuessFrameRate(st *Stream, fr *Frame) Rational {
+func (s *FormatContext) AvGuessFrameRate(st *AVStream, fr *Frame) Rational {
 	return newRational(C.av_guess_frame_rate((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), (*C.struct_AVFrame)(unsafe.Pointer(fr))))
 }
 
 //Check if the stream st contained in s is matched by the stream specifier spec.
-func (s *FormatContext) AvformatMatchStreamSpecifier(st *Stream, spec string) int {
+func (s *FormatContext) AvformatMatchStreamSpecifier(st *AVStream, spec string) int {
 	Cspec := C.CString(spec)
 	defer C.free(unsafe.Pointer(Cspec))
 
@@ -220,8 +220,8 @@ func (s *FormatContext) AvformatQueueAttachedPictures() int {
 	return int(C.avformat_queue_attached_pictures((*C.struct_AVFormatContext)(s)))
 }
 
-func (s *FormatContext) AvformatNewStream2(c *Codec) *Stream {
-	stream := (*Stream)(C.avformat_new_stream((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c)))
+func (s *FormatContext) AvformatNewStream2(c *Codec) *AVStream {
+	stream := (*AVStream)(C.avformat_new_stream((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c)))
 	stream.codec.pix_fmt = int32(AV_PIX_FMT_YUV)
 	stream.codec.width = 640
 	stream.codec.height = 480

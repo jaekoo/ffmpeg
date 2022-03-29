@@ -125,7 +125,7 @@ func AvformatGetClass() *Class {
 }
 
 //Get side information from stream.
-func (s *Stream) AvStreamGetSideData(t AvPacketSideDataType, z int) *uint8 {
+func (s *AVStream) AvStreamGetSideData(t AvPacketSideDataType, z int) *uint8 {
 	return (*uint8)(C.av_stream_get_side_data((*C.struct_AVStream)(s), (C.enum_AVPacketSideDataType)(t), (*C.int)(unsafe.Pointer(&z))))
 }
 
@@ -190,12 +190,12 @@ func AvHexDumpLog(a, l int, b *uint8, s int) {
 }
 
 //Send a nice dump of a packet to the specified file stream.
-func AvPktDump2(f *File, pkt *Packet, dp int, st *Stream) {
+func AvPktDump2(f *File, pkt *Packet, dp int, st *AVStream) {
 	C.av_pkt_dump2((*C.FILE)(f), toCPacket(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 
 //Send a nice dump of a packet to the log.
-func AvPktDumpLog2(a int, l int, pkt *Packet, dp int, st *Stream) {
+func AvPktDumpLog2(a int, l int, pkt *Packet, dp int, st *AVStream) {
 	C.av_pkt_dump_log2(unsafe.Pointer(&a), C.int(l), toCPacket(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 
@@ -216,12 +216,12 @@ func AvCodecGetTag2(t **AvCodecTag, id CodecId, tag *uint) int {
 }
 
 //Get the index for a specific timestamp.
-func AvIndexSearchTimestamp(st *Stream, t int64, f int) int {
+func AvIndexSearchTimestamp(st *AVStream, t int64, f int) int {
 	return int(C.av_index_search_timestamp((*C.struct_AVStream)(st), C.int64_t(t), C.int(f)))
 }
 
 //Add an index entry into a sorted list.
-func AvAddIndexEntry(st *Stream, pos, t, int64, s, d, f int) int {
+func AvAddIndexEntry(st *AVStream, pos, t, int64, s, d, f int) int {
 	return int(C.av_add_index_entry((*C.struct_AVStream)(st), C.int64_t(pos), C.int64_t(t), C.int(s), C.int(d), C.int(f)))
 }
 

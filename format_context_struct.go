@@ -58,14 +58,14 @@ func (ctxt *FormatContext) Programs() []*AvProgram {
 	return *((*[]*AvProgram)(unsafe.Pointer(&header)))
 }
 
-func (ctxt *FormatContext) Streams() []*Stream {
+func (ctxt *FormatContext) Streams() []*AVStream {
 	header := reflect.SliceHeader{
 		Data: uintptr(unsafe.Pointer(ctxt.streams)),
 		Len:  int(ctxt.NbStreams()),
 		Cap:  int(ctxt.NbStreams()),
 	}
 
-	return *((*[]*Stream)(unsafe.Pointer(&header)))
+	return *((*[]*AVStream)(unsafe.Pointer(&header)))
 }
 
 func (ctxt *FormatContext) Filename() string {
