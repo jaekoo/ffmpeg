@@ -35,12 +35,12 @@ const (
 )
 
 //Allocate and read the payload of a packet and initialize its fields with default values.
-func (ctxt *AvIOContext) AvGetPacket(pkt *Packet, s int) int {
+func (ctxt *AvIOContext) AvGetPacket(pkt *AVPacket, s int) int {
 	return int(C.av_get_packet((*C.struct_AVIOContext)(ctxt), toCPacket(pkt), C.int(s)))
 }
 
-//Read data and append it to the current content of the Packet.
-func (ctxt *AvIOContext) AvAppendPacket(pkt *Packet, s int) int {
+//Read data and append it to the current content of the AVPacket.
+func (ctxt *AvIOContext) AvAppendPacket(pkt *AVPacket, s int) int {
 	return int(C.av_append_packet((*C.struct_AVIOContext)(ctxt), toCPacket(pkt), C.int(s)))
 }
 
@@ -190,12 +190,12 @@ func AvHexDumpLog(a, l int, b *uint8, s int) {
 }
 
 //Send a nice dump of a packet to the specified file stream.
-func AvPktDump2(f *File, pkt *Packet, dp int, st *AVStream) {
+func AvPktDump2(f *File, pkt *AVPacket, dp int, st *AVStream) {
 	C.av_pkt_dump2((*C.FILE)(f), toCPacket(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 
 //Send a nice dump of a packet to the log.
-func AvPktDumpLog2(a int, l int, pkt *Packet, dp int, st *AVStream) {
+func AvPktDumpLog2(a int, l int, pkt *AVPacket, dp int, st *AVStream) {
 	C.av_pkt_dump_log2(unsafe.Pointer(&a), C.int(l), toCPacket(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 

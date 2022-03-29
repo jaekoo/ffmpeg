@@ -34,9 +34,11 @@ func (avs *AVStream) IndexEntries() *AvIndexEntry {
 	return (*AvIndexEntry)(unsafe.Pointer(avs.index_entries))
 }
 
-func (avs *AVStream) AttachedPic() Packet {
+/*
+func (avs *AVStream) AttachedPic() AVPacket {
 	return *fromCPacket(&avs.attached_pic)
 }
+*/
 
 func (avs *AVStream) SideData() *AvPacketSideData {
 	return (*AvPacketSideData)(unsafe.Pointer(avs.side_data))

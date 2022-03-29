@@ -10,10 +10,10 @@ import (
 	"unsafe"
 )
 
-func toCPacket(pkt *Packet) *C.struct_AVPacket {
+func toCPacket(pkt *AVPacket) *C.struct_AVPacket {
 	return (*C.struct_AVPacket)(unsafe.Pointer(pkt))
 }
 
-func fromCPacket(pkt *C.struct_AVPacket) *Packet {
-	return (*Packet)(unsafe.Pointer(pkt))
+func fromCPacket(pkt *C.struct_AVPacket) *AVPacket {
+	return (*AVPacket)(unsafe.Pointer(pkt))
 }

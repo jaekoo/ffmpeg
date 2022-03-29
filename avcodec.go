@@ -28,16 +28,16 @@ type (
 	Dictionary    C.struct_AVDictionary
 	Frame         C.struct_AVFrame
 	MediaType     C.enum_AVMediaType
-	//Packet                        C.struct_AVPacket
-	BitStreamFilter               C.struct_AVBitStreamFilter
-	BitStreamFilterContext        C.struct_AVBitStreamFilterContext
-	Rational                      C.struct_AVRational
-	Class                         C.struct_AVClass
-	AvCodecParameters             C.struct_AVCodecParameters
-	AvHWAccel                     C.struct_AVHWAccel
-	AvPacketSideData              C.struct_AVPacketSideData
-	AvPanScan                     C.struct_AVPanScan
-	Picture                       C.struct_AVPicture
+	//
+	BitStreamFilter        C.struct_AVBitStreamFilter
+	BitStreamFilterContext C.struct_AVBitStreamFilterContext
+	Rational               C.struct_AVRational
+	Class                  C.struct_AVClass
+	AvCodecParameters      C.struct_AVCodecParameters
+	AvHWAccel              C.struct_AVHWAccel
+	AvPacketSideData       C.struct_AVPacketSideData
+	AvPanScan              C.struct_AVPanScan
+
 	AvProfile                     C.struct_AVProfile
 	AvSubtitle                    C.struct_AVSubtitle
 	AvSubtitleRect                C.struct_AVSubtitleRect
@@ -170,8 +170,8 @@ func AvsubtitleFree(s *AvSubtitle) {
 	C.avsubtitle_free((*C.struct_AVSubtitle)(s))
 }
 
-func AvPacketAlloc() *Packet {
-	return (*Packet)(C.av_packet_alloc())
+func AvPacketAlloc() *AVPacket {
+	return (*AVPacket)(C.av_packet_alloc())
 }
 
 //Pack a dictionary for use in side_data.
@@ -293,6 +293,10 @@ func AvcodecDescriptorGetByName(n string) *Descriptor {
 
 func AvcodecOpen2(ctx *Context, codec *Codec, dict **Dictionary) int {
 	return int(C.avcodec_open2((*C.struct_AVCodecContext)(ctx), (*C.struct_AVCodec)(codec), (**C.struct_AVDictionary)(unsafe.Pointer(dict))))
+}
+
+func AvcodecClose(ctx *Context) int {
+	return int(C.avcodec_close((*C.struct_AVCodecContext)(ctx)))
 }
 
 func (f *Frame) Pts() int64 {

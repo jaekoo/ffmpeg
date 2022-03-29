@@ -109,7 +109,7 @@ func AvFindBestStream(ic *FormatContext, t MediaType, ws, rs int, c **Codec, f i
 }
 
 //Return the next frame of a stream.
-func (s *FormatContext) AvReadFrame(pkt *Packet) int {
+func (s *FormatContext) AvReadFrame(pkt *AVPacket) int {
 	return int(C.av_read_frame((*C.struct_AVFormatContext)(unsafe.Pointer(s)), toCPacket(pkt)))
 }
 
@@ -152,12 +152,12 @@ func (s *FormatContext) AvformatWriteHeader(o **Dictionary) int {
 }
 
 //Write a packet to an output media file.
-func (s *FormatContext) AvWriteFrame(pkt *Packet) int {
+func (s *FormatContext) AvWriteFrame(pkt *AVPacket) int {
 	return int(C.av_write_frame((*C.struct_AVFormatContext)(s), toCPacket(pkt)))
 }
 
 //Write a packet to an output media file ensuring correct interleaving.
-func (s *FormatContext) AvInterleavedWriteFrame(pkt *Packet) int {
+func (s *FormatContext) AvInterleavedWriteFrame(pkt *AVPacket) int {
 	return int(C.av_interleaved_write_frame((*C.struct_AVFormatContext)(s), toCPacket(pkt)))
 }
 

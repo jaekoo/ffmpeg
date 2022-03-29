@@ -52,18 +52,18 @@ func (ctxt *Context) SetEncodeParams(width int, height int, pxlFmt PixelFormat) 
 	ctxt.SetEncodeParams2(width, height, pxlFmt, false /*no b frames*/, 10)
 }
 
-func (ctxt *Context) AvcodecSendPacket(packet *Packet) int {
+func (ctxt *Context) AvcodecSendPacket(packet *AVPacket) int {
 	return (int)(C.avcodec_send_packet((*C.struct_AVCodecContext)(ctxt), (*C.struct_AVPacket)(packet)))
 }
 
-func (ctxt *Context) AvcodecReceiveFrame(frame *Frame) int {
+func (ctxt *Context) AvcodecReceiveFrame(frame *AVFrame) int {
 	return (int)(C.avcodec_receive_frame((*C.struct_AVCodecContext)(ctxt), (*C.struct_AVFrame)(unsafe.Pointer(frame))))
 }
 
-func (ctxt *Context) AvcodecReceivePacket(packet *Packet) int {
+func (ctxt *Context) AvcodecReceivePacket(packet *AVPacket) int {
 	return (int)(C.avcodec_receive_packet((*C.struct_AVCodecContext)(ctxt), (*C.struct_AVPacket)(packet)))
 }
 
-func (ctxt *Context) AvcodecSendFrame(frame *Frame) int {
+func (ctxt *Context) AvcodecSendFrame(frame *AVFrame) int {
 	return (int)(C.avcodec_send_frame((*C.struct_AVCodecContext)(ctxt), (*C.struct_AVFrame)(unsafe.Pointer(frame))))
 }

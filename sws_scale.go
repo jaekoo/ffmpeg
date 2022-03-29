@@ -58,16 +58,16 @@ func SwsIssupportedendiannessconversion(p PixelFormat) int {
 }
 
 ////Scale the image slice in srcSlice and put the resulting scaled slice in the image in dst.
-func SwsScale(ctxt *Context, src *uint8, str int, y, h int, d *uint8, ds int) int {
+func SwsScale(ctxt *SwsContext, src *uint8, str *int, y, h int, dst *uint8, dstr *int) int {
 	cctxt := (*C.struct_SwsContext)(unsafe.Pointer(ctxt))
 	csrc := (*C.uint8_t)(unsafe.Pointer(src))
-	cstr := (*C.int)(unsafe.Pointer(&str))
-	cd := (*C.uint8_t)(unsafe.Pointer(d))
-	cds := (*C.int)(unsafe.Pointer(&ds))
+	cstr := (*C.int)(unsafe.Pointer(str))
+	cd := (*C.uint8_t)(unsafe.Pointer(dst))
+	cds := (*C.int)(unsafe.Pointer(dstr))
 	return int(C.sws_scale(cctxt, &csrc, cstr, C.int(y), C.int(h), &cd, cds))
 }
 
-func SwsScale2(ctxt *Context, srcData [8]*uint8, srcStride [8]int32, y, h int, dstData [8]*uint8, dstStride [8]int32) int {
+func SwsScale2(ctxt *SwsContext, srcData [8]*uint8, srcStride [8]int32, y, h int, dstData [8]*uint8, dstStride [8]int32) int {
 	cctxt := (*C.struct_SwsContext)(unsafe.Pointer(ctxt))
 	csrc := (**C.uint8_t)(unsafe.Pointer(&srcData[0]))
 	cstr := (*C.int)(unsafe.Pointer(&srcStride[0]))
